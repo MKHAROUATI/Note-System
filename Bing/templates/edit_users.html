@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Note Page {% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class=" mt-5">
+    <div class="card">
+    <div class="card-header">
+      User Edition
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{% url 'edit_user' utilisateur.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+       <button type="submit" name="submit" class="btn btn-secondary">Save User</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

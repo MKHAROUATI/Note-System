@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="mt-5">
+      {% if user.is_authenticated %}
+        {% if user.is_superuser %}    
+              <table class="table">
+                  <thead class="table-dark">
+                      <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">UserName</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">First Name</th>
+                          <th scope="col">Last Name</th>
+                          <th scope="col">IsSuperAdmin</th>
+                          <th colspan="2" scope="col">Operations</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for head in heads %}
+                       
+                                  <tr>
+                                      <th scope="row">{{ forloop.counter }}</th>
+                                      <td>{{ head.username }}</td>
+                                      <td>{{ head.email }}</td>
+                                      <td>{{ head.first_name }}</td>
+                                      <td>{{ head.last_name }}</td>
+                                      <td>{% if head.is_superuser %} Yes {%else%} No {%endif%}</td>
+                                      <td><a href="{% url 'edit_user' head.id %}" class="btn btn-info" role="button">Edit</a></td>
+                                      <td><a href="{% url 'delete_user' head.id %}" class="btn btn-danger" role="button">Delete</a></td>                                     
+                                  </tr>
+                      
+                      {% endfor %}
+                  </tbody>
+              </table>
+          {% else %}
+              <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert">
+                  <strong>Error:</strong> Only Admins can See this section
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endif %}
+      {% endif %}
+  </div>
+</div>
+
+
+{% endblock %}

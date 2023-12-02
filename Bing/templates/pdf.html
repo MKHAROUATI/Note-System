@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="mt-5">
+            {% if user.is_authenticated %}
+                {% if notes %}
+                    <table class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Note Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Complete</th>
+                                <th colspan="3" scope="col">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for note in notes %}
+                                {% if note.user == user %}
+                                      {% if note.complete %}
+                                              <tr>
+                                                  <th scope="row">{{ forloop.counter }}</th>
+                                                  <td><s>{{ note.name }}</s></td>
+                                                  <td><s>{{ note.description }}</s></td>
+                                                  <td><s>Completed</s></td>
+                                                  <td><a href="{% url 'edit_note' note.id %}" class="btn btn-info" role="button">Edit</a></td>
+                                                  <td><a href="{% url 'delete_note' note.id %}" class="btn btn-danger" role="button">Delete</a></td>  
+                                                  <td><a href="{% url 'print_note' note.id %}" class="btn btn-success" role="button">Print</a></td>                                     
+                                         
+                                              </tr>
+                                        {% else %}
+                                              <tr>
+                                                  <th scope="row">{{ forloop.counter }}</th>
+                                                  <td>{{ note.name }}</td>
+                                                  <td>{{ note.description }}</td>
+                                                  <td>{% if note.complete %} Completed {% else %} Not Completed {% endif %}</td>
+                                                  <td><a href="{% url 'edit_note' note.id %}" class="btn btn-info" role="button">Edit</a></td>
+                                                  <td><a href="{% url 'delete_note' note.id %}" class="btn btn-danger" role="button">Delete</a></td>   
+                                                  <td><a href="{% url 'print_note' note.id %}" class="btn btn-success" role="button">Print</a></td>                                     
+                                        
+                                              </tr>
+      
+                                        {% endif %}
+                              {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert">
+                        <strong>Error:</strong> You have not created any notes yet!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+      </div>
+      
+</body>
+</html>
